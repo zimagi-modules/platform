@@ -1,0 +1,52 @@
+#
+# Requires configurations:
+#
+# @project              : GCP project name that contains platform deployment
+# @name                 : Name of platform
+# @platform_public_key  : Public SSH key contents for SSH access to compute instance
+# @gcp_credentials      : GCP service account credential JSON contents
+#
+parents:
+    - deployment
+
+config:
+    project: null # REQUIRED
+    region: us-east1
+    subnet_cidr: "10.1.0.0/24"
+    firewall_cidr: "0.0.0.0/0"
+
+    image: ubuntu-os-cloud/ubuntu-2204-lts
+    image_user: ubuntu
+    machine: e2-standard-4
+    disk_size: 10
+
+pre_run:
+    fields:
+        _config:
+            remote: https://github.com/zimagi/terraform-gcp-instance.git
+            reference: main
+
+            values:
+                project: "@project"
+                active: "@active"
+
+                region: "@region"
+                vpc_name: "@name"
+                subnet_name: public
+                subnet_cidr: "@subnet_cidr"
+
+                firewall_access_cidr: "@firewall_cidr"
+                command_api_port: 5123
+                data_api_port: 5323
+
+                machine_type: "@machine"
+                image: "@image"
+                os_disk_size: "@disk_size"
+
+                instance_name: "@name"
+                instance_user: "@image_user"
+
+            <secret>secrets:
+                values:
+                    credentials: "@gcp_credentials"
+                    instance_ssh_key: "@platform_public_key"
