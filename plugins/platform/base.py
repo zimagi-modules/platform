@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from systems.plugins.index import BasePlugin
 from utility.data import deep_merge
 from utility.filesystem import filesystem_dir
@@ -59,20 +61,14 @@ class BaseProvider(BasePlugin('platform')):
 
         self.provision_platform(instance, repository)
 
-        #
-        # Create host
-        #
-        # (*) name - zimagi_name
-        # (*) host - zimagi_host
-        # (*) command_port - zimagi_command_port (5123)
-        # (*) data_port - zimagi_data_port (5323)
-        # * user + zimagi_user (admin)
-        # * token + zimagi_token (default token)
-        # * encryption_key + zimagi_encryption_key (default encryption key)
-        #
-        # (*) ssh_host - ssh_host
-        # (*) ssh_port - ssh_port (22)
-        # (*) ssh_user - ssh_user
+        self.command.save_instance(self.command._host, instance.name, {
+            'host': instance.variables.get('zimagi_host'),
+            'command_port': instance.variables.get('zimagi_command_port', 5123),
+            'data_port': instance.variables.get('zimagi_data_port', 5323),
+            'user': settings.ADMIN_USER,
+            'token': settings.DEFAULT_ADMIN_TOKEN,
+            'encryption_key': settings.ADMIN_API_KEY
+        })
 
 
     def provision_platform(self, instance, repository):
