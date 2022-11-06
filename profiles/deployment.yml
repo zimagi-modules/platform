@@ -8,13 +8,13 @@ config:
     platform_public_key: null
 
 run:
-    "deploy_<<dict_key>>":
+    "deploy_@name":
         _command: platform save
         platform_key: "@name"
         platform_provider_name: "@provider"
         platform_fields: "@fields"
 
 destroy:
-    "destroy_<<dict_key>>":
+    "destroy_@name":
         _command: platform remove
         platform_key: "@name"
