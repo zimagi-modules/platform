@@ -62,17 +62,17 @@ class BaseProvider(BasePlugin('platform')):
         #
         # Create host
         #
-        # * name - zimagi_name
-        # * host - zimagi_host
-        # * command_port - zimagi_command_port
-        # * data_port - zimagi_data_port
-        # * user + zimagi_user
-        # * token + zimagi_token
-        # * encryption_key + zimagi_encryption_key
+        # (*) name - zimagi_name
+        # (*) host - zimagi_host
+        # (*) command_port - zimagi_command_port (5123)
+        # (*) data_port - zimagi_data_port (5323)
+        # * user + zimagi_user (admin)
+        # * token + zimagi_token (default token)
+        # * encryption_key + zimagi_encryption_key (default encryption key)
         #
-        # * ssh_host - ssh_host
-        # * ssh_port - ssh_port
-        #
+        # (*) ssh_host - ssh_host
+        # (*) ssh_port - ssh_port (22)
+        # (*) ssh_user - ssh_user
 
 
     def provision_platform(self, instance, repository):
