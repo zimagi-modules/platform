@@ -1,0 +1,4 @@
+plugin:
+    platform:
+        base: data
+        data: platform

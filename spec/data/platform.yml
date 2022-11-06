@@ -1,0 +1,76 @@
+data_mixins:
+  platform:
+    class: PlatformMixin
+    fields:
+      platform:
+        type: '@django.ForeignKey'
+        relation: platform
+        options:
+          on_delete: '@django.PROTECT'
+  platform_optional:
+    class: PlatformOptionalMixin
+    fields:
+      platform:
+        type: '@django.ForeignKey'
+        relation: platform
+        options:
+          on_delete: '@django.SET_NULL'
+          'null': true
+  platforms:
+    class: PlatformMultipleMixin
+    fields:
+      platforms:
+        type: '@django.ManyToManyField'
+        relation: platform
+        options:
+          blank: true
+data_base:
+  platform:
+    class: PlatformBase
+    base: id_resource
+    mixins:
+    - platform
+    id_fields:
+    - platform_id
+    - name
+    meta:
+      unique_together:
+      - platform
+      - name
+      scope: platform
+data:
+  platform:
+    class: Platform
+    base: name_resource
+    api: true
+    display: <name>
+    roles:
+      edit:
+      - platform-admin
+      view:
+      - platform-auditor
+    fields:
+      reference:
+        type: '@django.CharField'
+        options:
+          'null': true
+          default: null
+          max_length: 256
+      environment:
+        type: '@zimagi.EncryptedDataField'
+        color: encrypted
+        options:
+          default: {}
+      state:
+        type: '@zimagi.EncryptedDataField'
+        color: encrypted
+        options:
+          default: ''
+      remote:
+        type: '@django.CharField'
+        options:
+          'null': true
+          default: null
+          max_length: 256
+    meta:
+      provider_name: platform

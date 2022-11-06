@@ -1,0 +1,21 @@
+plugin:
+    platform:
+        option:
+            public_key:
+                type: str
+                default: null
+                help: "Remote Git repository user public key"
+                config_name: git_public_key
+                secret: true
+            private_key:
+                type: str
+                default: null
+                help: "Remote Git repository user private key"
+                config_name: git_private_key
+                secret: true
+        providers:
+            terraform:
+                requirement:
+                    variables:
+                        type: dict
+                        help: "Terraform variable values to pass to Terraform operation"

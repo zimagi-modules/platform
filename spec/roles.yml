@@ -1,0 +1,3 @@
+roles:
+  platform-admin: Platform administrator (full privileges over all platforms)
+  platform-auditor: Platform auditor (viewing privileges over all platforms)
