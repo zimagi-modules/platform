@@ -1,6 +1,7 @@
 from systems.plugins.index import BasePlugin
 from utility.data import deep_merge
 from utility.filesystem import filesystem_dir
+from utility.git import Git
 
 import os
 
@@ -23,11 +24,66 @@ class BaseProvider(BasePlugin('platform')):
 
 
     def get_config(self, instance):
-        return deep_merge(instance.config, instance.secrets)
+        if not getattr(self, '_instance_config', None):
+            self._instance_config = {}
+
+        if instance.name not in self._instance_config:
+            self._instance_config[instance.name] = deep_merge(instance.config, instance.secrets)
+        return self._instance_config[instance.name]
 
 
     def initialize_instance(self, instance, created):
-        print('initializing instance')
+        project_path = self.get_path(instance)
+        config = self.get_config(instance)
+        public_key = config.get('public_key', None)
+        private_key = config.get('private_key', None)
+
+        if not os.path.isdir(os.path.join(project_path, '.git')):
+            print(project_path)
+            print(instance.remote)
+            print(instance.reference)
+
+            if public_key:
+                public_key = " ".join(public_key.split(' ')[0:2])
+            repository = Git.clone(instance.remote, project_path,
+                reference = instance.reference,
+                private_key = private_key,
+                public_key = public_key
+            )
+            self.command.success("Initialized repository {} from remote {}".format(instance.name, instance.remote))
+        else:
+            repository = Git(project_path,
+                private_key = private_key,
+                public_key = public_key
+            )
+            repository.set_remote('origin', instance.remote)
+            repository.pull(
+                remote = 'origin',
+                branch = instance.reference
+            )
+            self.command.success("Updated repository {} from remote {}".format(instance.name, instance.remote))
+
+        self.provision_platform(instance, repository)
+        self.command.success("Successfully provisioned platform {}".format(instance.name))
+
+    def provision_platform(self, instance, repository):
+        # Override in sub class
+        pass
+
 
     def finalize_instance(self, instance):
-        print('finalizing instance')
+        project_path = self.get_path(instance)
+        config = self.get_config(instance)
+
+        if os.path.isdir(project_path):
+            repository = Git(project_path,
+                private_key = config.get('private_key', None),
+                public_key = config.get('public_key', None)
+            )
+            self.destroy_platform(instance, repository)
+            repository.disk.delete()
+            self.command.success("Successfully deleted platform {}".format(instance.name))
+
+    def destroy_platform(self, instance, repository):
+        # Override in sub class
+        pass
