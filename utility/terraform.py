@@ -147,6 +147,7 @@ class Terraform(object):
     def clean_project(self):
         for file in (
             '.terraform',
+            '.terraform.lock.hcl',
             TERRAFORM_VARS_FILE,
             TERRAFORM_STATE_FILE,
             "{}.backup".format(TERRAFORM_STATE_FILE)
