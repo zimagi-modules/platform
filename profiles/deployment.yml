@@ -10,12 +10,15 @@ config:
 
     instances:
         gcp_instance:
-            provider_type: terraform
-            remote: git@github.com:zimagi/terraform-gcp-instance.git
-            reference: main
-            config:
+            provider: terraform
+            fields:
+                remote: git@github.com:zimagi/terraform-gcp-instance.git
+                reference: main
+                private_key: "@platform_private_key"
+                public_key: "@platform_public_key"
                 variables:
                     project: "zimagi-instance"
+                    credentials: "<secret>@gcp_credentials"
 
                     region: "us-east1"
                     vpc_name: "zimagi-@timestamp"
@@ -34,24 +37,13 @@ config:
                     instance_user: "ubuntu"
                     instance_ssh_key: "@platform_public_key"
 
-            secrets:
-                private_key: "@platform_private_key"
-                public_key: "@platform_public_key"
-
-                variables:
-                    credentials: "@gcp_credentials"
-
 run:
     "deploy_<<dict_key>>":
         _foreach: "@instances"
         _command: platform save
         platform_key: "<<dict_key>>"
-        platform_provider_name: "<<provider_type>>"
-        platform_fields:
-            remote: "<<remote>>"
-            reference: "<<reference>>"
-            config: "<<config>>"
-            secrets: "<<secrets>>"
+        platform_provider_name: "<<provider>>"
+        platform_fields: "<<fields>>"
 
 destroy:
     "destroy_<<dict_key>>":
