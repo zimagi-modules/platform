@@ -53,19 +53,13 @@ data:
       view:
       - platform-auditor
     fields:
-      remote:
-        type: '@django.CharField'
-        options:
-          'null': true
-          default: null
-          max_length: 256
-          editable: true
-      environment:
+      state:
         type: '@zimagi.EncryptedDataField'
         color: encrypted
         options:
           default: {}
-          editable: true
+          editable: false
+          system: true
       reference:
         type: '@django.CharField'
         options:
@@ -73,12 +67,21 @@ data:
           default: null
           max_length: 256
           editable: true
-      state:
+          system: false
+      environment:
         type: '@zimagi.EncryptedDataField'
         color: encrypted
         options:
-          default: ''
-          editable: false
-          system: true
+          default: {}
+          editable: true
+          system: false
+      remote:
+        type: '@django.CharField'
+        options:
+          'null': true
+          default: null
+          max_length: 256
+          editable: true
+          system: false
     meta:
       provider_name: platform

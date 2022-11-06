@@ -23,6 +23,6 @@ models:
             environment:
                 type: encrypted_dict
             state:
-                type: encrypted_text
+                type: encrypted_dict
                 options:
                     editable: false
