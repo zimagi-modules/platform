@@ -21,23 +21,15 @@ class Provider(BaseProvider('platform', 'terraform')):
 
 
     def provision_platform(self, instance, repository):
-        print('provisioning terraform')
-        print(repository.disk.base_path)
-        print(dump_json(self.get_config(instance), indent = 2))
-
-        # self.initialize_terraform(instance)
-        # if self.test:
-        #     self.plan(instance)
-        # else:
-        #     self.apply(instance)
+        self.initialize_terraform(instance)
+        if self.test:
+            self.plan(instance)
+        else:
+            self.apply(instance)
 
     def destroy_platform(self, instance, repository):
-        print('finalizing terraform')
-        print(repository.disk.base_path)
-        print(dump_json(self.get_config(instance), indent = 2))
-
-        # self.initialize_terraform(instance)
-        # self.destroy(instance)
+        self.initialize_terraform(instance)
+        self.destroy(instance)
 
 
     def plan(self, instance):
