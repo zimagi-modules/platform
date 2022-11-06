@@ -6,8 +6,6 @@
 # @gcp_credentials      : GCP service account credential JSON contents
 #
 config:
-    timestamp: "#time(%Y%m%d%H%M%S)"
-
     instances:
         gcp_instance:
             provider: terraform
@@ -20,7 +18,7 @@ config:
                     project: "zimagi-instance"
 
                     region: "us-east1"
-                    vpc_name: "zimagi-@timestamp"
+                    vpc_name: "zimagi-test"
                     subnet_name: "public"
                     subnet_cidr: "10.1.0.0/24"
 
@@ -32,7 +30,7 @@ config:
                     image: "ubuntu-os-cloud/ubuntu-2204-lts"
                     os_disk_size: 10
 
-                    instance_name: "zimagi-@timestamp"
+                    instance_name: "zimagi-test"
                     instance_user: "ubuntu"
                 <secret>secrets:
                     values:
