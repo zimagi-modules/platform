@@ -10,14 +10,20 @@ class Provider(BaseProvider('platform', 'terraform')):
             self.terraform = Terraform(
                 self.command,
                 instance.name,
-                self.get_path(instance)
+                self.get_path(instance),
+                instance.environment
             )
 
 
-    def initialize_instance(self, instance, created):
-        print('initializing terraform')
+    def get_variables(self, instance):
+        config = self.get_config(instance)
+        return config.get('values', {})
+
+
+    def provision_platform(self, instance, repository):
+        print('provisioning terraform')
+        print(repository.disk.base_path)
         print(dump_json(self.get_config(instance), indent = 2))
-        super().initialize_instance(instance, created)
 
         # self.initialize_terraform(instance)
         # if self.test:
@@ -25,13 +31,13 @@ class Provider(BaseProvider('platform', 'terraform')):
         # else:
         #     self.apply(instance)
 
-    def finalize_instance(self, instance):
+    def destroy_platform(self, instance, repository):
         print('finalizing terraform')
+        print(repository.disk.base_path)
         print(dump_json(self.get_config(instance), indent = 2))
-        super().finalize_instance(instance)
+
         # self.initialize_terraform(instance)
         # self.destroy(instance)
-
 
 
     def plan(self, instance):
