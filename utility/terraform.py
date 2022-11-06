@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from .data import dump_json
+from .data import dump_json, load_json
 from .filesystem import FileSystem
 
 import threading
@@ -138,10 +138,10 @@ class Terraform(object):
 
 
     def save_state(self, state):
-        return self.disk.save(state, TERRAFORM_STATE_FILE)
+        return self.disk.save(dump_json(state, indent = 2), TERRAFORM_STATE_FILE)
 
     def load_state(self):
-        return self.disk.load(TERRAFORM_STATE_FILE)
+        return load_json(self.disk.load(TERRAFORM_STATE_FILE))
 
 
     def clean_project(self):
