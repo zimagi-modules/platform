@@ -58,7 +58,6 @@ class BaseProvider(BasePlugin('platform')):
             self.command.success("Updated repository {} from remote {}".format(instance.name, instance.remote))
 
         self.provision_platform(instance, repository)
-        self.command.success("Successfully provisioned platform {}".format(instance.name))
 
     def provision_platform(self, instance, repository):
         # Override in sub class
@@ -76,7 +75,6 @@ class BaseProvider(BasePlugin('platform')):
             )
             self.destroy_platform(instance, repository)
             repository.disk.delete()
-            self.command.success("Successfully deleted platform {}".format(instance.name))
 
     def destroy_platform(self, instance, repository):
         # Override in sub class
