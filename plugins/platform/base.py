@@ -1,4 +1,5 @@
 from systems.plugins.index import BasePlugin
+from utility.data import deep_merge
 from utility.filesystem import filesystem_dir
 
 import os
@@ -19,6 +20,10 @@ class BaseProvider(BasePlugin('platform')):
 
     def project(self, instance):
         return filesystem_dir(self.get_path(instance))
+
+
+    def get_config(self, instance):
+        return deep_merge(instance.config, instance.secrets)
 
 
     def initialize_instance(self, instance, created):

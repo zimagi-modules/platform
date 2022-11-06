@@ -1,5 +1,5 @@
 from systems.plugins.index import BaseProvider
-from utility.data import dump_json, deep_merge
+from utility.data import dump_json
 from utility.terraform import Terraform
 
 
@@ -16,7 +16,7 @@ class Provider(BaseProvider('platform', 'terraform')):
 
     def initialize_instance(self, instance, created):
         print('initializing terraform')
-        print(self.get_variables(instance))
+        print(dump_json(self.get_config(instance), indent = 2))
         super().initialize_instance(instance, created)
 
         # self.initialize_terraform(instance)
@@ -27,17 +27,11 @@ class Provider(BaseProvider('platform', 'terraform')):
 
     def finalize_instance(self, instance):
         print('finalizing terraform')
-        print(self.get_variables(instance))
+        print(dump_json(self.get_config(instance), indent = 2))
         super().finalize_instance(instance)
         # self.initialize_terraform(instance)
         # self.destroy(instance)
 
-
-    def get_variables(self, instance):
-        return deep_merge(
-            instance.config.get('variables', {}),
-            instance.secrets.get('variables', {})
-        )
 
 
     def plan(self, instance):
