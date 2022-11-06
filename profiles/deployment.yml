@@ -14,11 +14,10 @@ config:
             fields:
                 remote: git@github.com:zimagi/terraform-gcp-instance.git
                 reference: main
-                private_key: "@platform_private_key"
-                public_key: "@platform_public_key"
-                variables:
+                <secret>private_key: "@platform_private_key"
+                <secret>public_key: "@platform_public_key"
+                values:
                     project: "zimagi-instance"
-                    credentials: "<secret>@gcp_credentials"
 
                     region: "us-east1"
                     vpc_name: "zimagi-@timestamp"
@@ -35,7 +34,10 @@ config:
 
                     instance_name: "zimagi-@timestamp"
                     instance_user: "ubuntu"
-                    instance_ssh_key: "@platform_public_key"
+                <secret>secrets:
+                    values:
+                        credentials: "@gcp_credentials"
+                        instance_ssh_key: "@platform_public_key"
 
 run:
     "deploy_<<dict_key>>":
