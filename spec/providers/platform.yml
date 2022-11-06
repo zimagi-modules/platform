@@ -15,7 +15,7 @@ plugin:
                 secret: true
         providers:
             terraform:
-                requirement:
+                option:
                     variables:
                         type: dict
                         help: "Terraform variable values to pass to Terraform operation"
