@@ -1,20 +1,16 @@
-_base_model: &base_model
-    base: name_resource
-    admin_roles: [ platform-admin ]
-    view_roles: [ platform-auditor ]
-    priority: 60
-
 roles:
     platform-admin: Platform administrator (full privileges over all platforms)
     platform-auditor: Platform auditor (viewing privileges over all platforms)
 
 models:
     platform:
-        <<: *base_model
+        base: name_resource
         mixins: [ group ]
+        admin_roles: [ platform-admin ]
+        view_roles: [ platform-auditor ]
         plugin: true
         display: "<name>"
-        priority: 65
+        priority: 60
         fields:
             remote:
                 type: string
