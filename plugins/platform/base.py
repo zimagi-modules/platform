@@ -39,12 +39,6 @@ class BaseProvider(BasePlugin('platform')):
         private_key = config.get('private_key', None)
 
         if not os.path.isdir(os.path.join(project_path, '.git')):
-            print(project_path)
-            print(instance.remote)
-            print(instance.reference)
-
-            if public_key:
-                public_key = " ".join(public_key.split(' ')[0:2])
             repository = Git.clone(instance.remote, project_path,
                 reference = instance.reference,
                 private_key = private_key,
