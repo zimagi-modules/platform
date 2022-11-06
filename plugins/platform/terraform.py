@@ -45,6 +45,10 @@ class Provider(BaseProvider('platform', 'terraform')):
                 dump_json(variables, indent = 2)
             ))
         instance.state = self.terraform.apply(variables, instance.state)
+        instance.variables = {}
+
+        for key, info in instance.state.get('outputs', {}).items():
+            instance.variables[key] = info['value']
 
     def destroy(self, instance):
         variables = self.get_variables(instance)
