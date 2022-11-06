@@ -6,7 +6,7 @@
 # @gcp_credentials      : GCP service account credential JSON contents
 #
 config:
-    timestamp: "#time()"
+    timestamp: "#time(%Y%m%d%H%M%S)"
 
     instances:
         gcp_instance:
