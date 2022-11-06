@@ -11,6 +11,7 @@ roles:
 models:
     platform:
         <<: *base_model
+        mixins: [ group ]
         plugin: true
         display: "<name>"
         priority: 65
@@ -23,3 +24,5 @@ models:
                 type: encrypted_dict
             state:
                 type: encrypted_text
+                options:
+                    editable: false

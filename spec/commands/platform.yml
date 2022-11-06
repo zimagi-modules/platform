@@ -7,7 +7,7 @@ command_mixins:
     platform:
         aliases: ["platform_optional"]
         class: PlatformMixin
-        mixins: ['name_resource']
+        mixins: ['name_resource', 'group']
         meta:
             platform:
                 data: platform
@@ -17,7 +17,7 @@ command_mixins:
 
     platforms:
         class: PlatformMultipleMixin
-        mixins: ['name_resource']
+        mixins: ['name_resource', 'group']
         meta:
             platforms:
                 data: platform

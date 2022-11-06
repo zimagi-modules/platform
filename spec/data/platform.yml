@@ -42,6 +42,9 @@ data:
   platform:
     class: Platform
     base: name_resource
+    mixins:
+    - provider
+    - group
     api: true
     display: <name>
     roles:
@@ -50,27 +53,32 @@ data:
       view:
       - platform-auditor
     fields:
-      reference:
-        type: '@django.CharField'
-        options:
-          'null': true
-          default: null
-          max_length: 256
-      environment:
-        type: '@zimagi.EncryptedDataField'
-        color: encrypted
-        options:
-          default: {}
-      state:
-        type: '@zimagi.EncryptedDataField'
-        color: encrypted
-        options:
-          default: ''
       remote:
         type: '@django.CharField'
         options:
           'null': true
           default: null
           max_length: 256
+          editable: true
+      environment:
+        type: '@zimagi.EncryptedDataField'
+        color: encrypted
+        options:
+          default: {}
+          editable: true
+      reference:
+        type: '@django.CharField'
+        options:
+          'null': true
+          default: null
+          max_length: 256
+          editable: true
+      state:
+        type: '@zimagi.EncryptedDataField'
+        color: encrypted
+        options:
+          default: ''
+          editable: false
+          system: true
     meta:
       provider_name: platform
