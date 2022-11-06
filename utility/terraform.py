@@ -87,23 +87,21 @@ class Terraform(object):
                 '-auto-approve',
                 "-var-file={}".format(self.save_variables(variables))
             )
+            error = True
             success = self.command.sh(
                 terraform_command,
                 cwd = self.disk.base_path,
                 env = self.environment,
                 line_prefix = '[terraform]: '
             )
-        if not success:
-            if not self.command.debug:
-                self.clean_project()
-            raise TerraformError("Terraform apply failed: {}".format(" ".join(terraform_command)))
-
-        self.command.info('')
-
-        state = self.load_state()
+        if success:
+            state = self.load_state()
+            error = False
 
         if not self.command.debug:
             self.clean_project()
+        if error:
+            raise TerraformError("Terraform apply failed: {}".format(" ".join(terraform_command)))
         return state
 
 
