@@ -16,6 +16,6 @@ plugin:
         providers:
             terraform:
                 option:
-                    variables:
+                    values:
                         type: dict
                         help: "Terraform variable values to pass to Terraform operation"
