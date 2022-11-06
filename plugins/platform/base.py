@@ -59,6 +59,22 @@ class BaseProvider(BasePlugin('platform')):
 
         self.provision_platform(instance, repository)
 
+        #
+        # Create host
+        #
+        # * name - zimagi_name
+        # * host - zimagi_host
+        # * command_port - zimagi_command_port
+        # * data_port - zimagi_data_port
+        # * user + zimagi_user
+        # * token + zimagi_token
+        # * encryption_key + zimagi_encryption_key
+        #
+        # * ssh_host - ssh_host
+        # * ssh_port - ssh_port
+        #
+
+
     def provision_platform(self, instance, repository):
         # Override in sub class
         pass
