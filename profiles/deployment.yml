@@ -1,0 +1,60 @@
+#
+# Requires configurations:
+#
+# @platform_private_key : Private SSH key contents for access to private repository
+# @platform_public_key  : Public SSH key contents for access to private repository and SSH access to compute instance
+# @gcp_credentials      : GCP service account credential JSON contents
+#
+config:
+    timestamp: "#time()"
+
+    instances:
+        gcp_instance:
+            provider_type: terraform
+            remote: git@github.com:zimagi/terraform-gcp-instance.git
+            reference: main
+            config:
+                variables:
+                    project: "zimagi-instance"
+
+                    region: "us-east1"
+                    vpc_name: "zimagi-@timestamp"
+                    subnet_name: "public"
+                    subnet_cidr: "10.1.0.0/24"
+
+                    firewall_access_cidr: "0.0.0.0/0"
+                    command_api_port: 5123
+                    data_api_port: 5323
+
+                    machine_type: "e2-standard-4"
+                    image: "ubuntu-os-cloud/ubuntu-2204-lts"
+                    os_disk_size: 10
+
+                    instance_name: "zimagi-@timestamp"
+                    instance_user: "ubuntu"
+                    instance_ssh_key: "@platform_public_key"
+
+            secrets:
+                private_key: "@platform_private_key"
+                public_key: "@platform_public_key"
+
+                variables:
+                    credentials: "@gcp_credentials"
+
+run:
+    "deploy_<<dict_key>>":
+        _foreach: "@instances"
+        _command: platform save
+        platform_key: "<<dict_key>>"
+        platform_provider_name: "<<provider_type>>"
+        platform_fields:
+            remote: "<<remote>>"
+            reference: "<<reference>>"
+            config: "<<config>>"
+            secrets: "<<secrets>>"
+
+destroy:
+    "destroy_<<dict_key>>":
+        _foreach: "@instances"
+        _command: platform remove
+        platform_key: "<<dict_key>>"
