@@ -1,0 +1,20 @@
+config_store:
+    platform_list_fields:
+        - provider_type
+        - remote
+        - reference
+        - created
+        - updated
+        - groups
+    platform_display_fields:
+        - provider_type
+        - remote
+        - reference
+        - created
+        - updated
+        - config
+        - secrets
+        - environment
+        - variables
+        - state
+        - groups
