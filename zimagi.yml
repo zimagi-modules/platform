@@ -4,4 +4,3 @@ version: 0.0.1
 compatibility: ">=0.11.0,<0.12"
 
 scripts: scripts/install.sh
-requirements: requirements.txt
