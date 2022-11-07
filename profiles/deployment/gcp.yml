@@ -52,6 +52,10 @@ pre_run:
                 instance_name: "@name"
                 instance_user: "@image_user"
 
+                environment:
+                    ZIMAGI_APP_NAME: "@name"
+                    ZIMAGI_QUEUE_COMMANDS: "False"
+
             <secret>secrets:
                 values:
                     credentials: "@gcp_credentials"
