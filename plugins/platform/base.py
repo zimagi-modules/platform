@@ -85,6 +85,7 @@ class BaseProvider(BasePlugin('platform')):
                 private_key = config.get('private_key', None),
                 public_key = config.get('public_key', None)
             )
+            self.command.remove_instance(self.command._host, instance.name)
             self.destroy_platform(instance, repository)
             repository.disk.delete()
 
