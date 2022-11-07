@@ -62,9 +62,9 @@ class BaseProvider(BasePlugin('platform')):
         self.provision_platform(instance, repository)
 
         self.command.save_instance(self.command._host, instance.name, {
-            'host': instance.variables.get('zimagi_host'),
-            'command_port': instance.variables.get('zimagi_command_port', 5123),
-            'data_port': instance.variables.get('zimagi_data_port', 5323),
+            'host': instance.variables.get(settings.PLATFORM_HOST_VARIABLE),
+            'command_port': instance.variables.get(settings.PLATFORM_COMMAND_API_PORT_VARIABLE, 5123),
+            'data_port': instance.variables.get(settings.PLATFORM_DATA_API_PORT_VARIABLE, 5323),
             'user': settings.ADMIN_USER,
             'token': settings.DEFAULT_ADMIN_TOKEN,
             'encryption_key': settings.ADMIN_API_KEY
