@@ -1,0 +1,7 @@
+command:
+    platform:
+        disable:
+            base: platform
+            priority: 75
+            parse:
+                platform_key: false
