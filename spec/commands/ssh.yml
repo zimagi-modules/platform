@@ -1,0 +1,7 @@
+command:
+    platform:
+        ssh:
+            base: platform
+            priority: 100
+            parse:
+                platform_key: false
