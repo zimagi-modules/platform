@@ -16,5 +16,4 @@ config_store:
         - secrets
         - environment
         - variables
-        - state
         - groups
