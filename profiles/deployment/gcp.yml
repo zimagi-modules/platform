@@ -13,6 +13,7 @@ parents:
 config:
     project: null # REQUIRED
     reference: main
+    development: false
 
     region: us-east1
     subnet_cidr: "10.1.0.0/24"
@@ -35,6 +36,7 @@ pre_run:
             values:
                 project: "@project"
                 active: "@active"
+                development: "@development"
 
                 region: "@region"
                 vpc_name: "@name"
