@@ -1,21 +1,21 @@
 #
 # Requires configurations:
 #
-# @project              : GCP project name that contains platform deployment
+# @gcp_project          : GCP project name that contains platform deployment
+# @gcp_credentials      : GCP service account credential JSON contents
 # @name                 : Name of platform
 # @platform_public_key  : Public SSH key contents for SSH access to compute instance
 # @platform_private_key : Private SSH key contents for SSH access to compute instance
-# @gcp_credentials      : GCP service account credential JSON contents
-#
+
 parents:
     - deployment
 
 config:
-    project: null # REQUIRED
-    reference: main
-    development: false
+    gcp_project: null # REQUIRED
+    gcp_region: us-east1
 
-    region: us-east1
+    reference: main
+
     subnet_cidr: "10.1.0.0/24"
     firewall_cidr: "0.0.0.0/0"
 
@@ -34,11 +34,13 @@ pre_run:
             <secret>private_key: "@platform_private_key"
 
             values:
-                project: "@project"
+                gcp_project: "@gcp_project"
+                gcp_region: "@gcp_region"
+
+                reference: "@zimagi_version"
                 active: "@active"
                 development: "@development"
 
-                region: "@region"
                 vpc_name: "@name"
                 subnet_name: public
                 subnet_cidr: "@subnet_cidr"
@@ -60,5 +62,5 @@ pre_run:
 
             <secret>secrets:
                 values:
-                    credentials: "@gcp_credentials"
+                    gcp_credentials: "@gcp_credentials"
                     instance_ssh_key: "@platform_public_key"

@@ -3,6 +3,9 @@ config:
     provider: terraform
     fields: {}
     active: true
+    development: false
+
+    zimagi_version: main
 
     platform_private_key: null
     platform_public_key: null
